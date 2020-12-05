@@ -44,7 +44,7 @@ const Members = ({ members, onDelete, onJoin, onPick }) => {
         <div className="form-group m-2">
           <input
             className="form-control"
-            type="text"
+            type="password"
             placeholder="Secret Code"
             onChange={(input) => (state.secretCode = input.target.value)}
           />
