@@ -1,41 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Counters from "./components/members";
 import NavBar from "./components/navbar";
 import Footer from "./components/footer";
+import database, { join, remove, update } from "./firebase";
 
 function App() {
   const [state, setState] = useState({
     members: [],
+    roomId: "",
   });
 
-  const handleDelete = (counterId) => {
-    const members = state.members.filter((c) => c.id !== counterId);
-    setState({ members });
-    console.log("delete");
-  };
+  useEffect(() => {
+    const roomRef = database.ref("room");
+    roomRef.on("value", (snapshot) => {
+      try {
+        const members = snapshot.val()[state.roomId];
+        const output = members ? members : [];
+        setState({ roomId: state.roomId, members: output });
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }, [state.roomId]);
 
-  const handleReset = () => {
-    const members = state.members.map((c) => ({
-      ...c,
-      value: 0,
-    }));
-    setState({ members });
+  const handleDelete = (memberId) => {
+    remove(state.roomId, memberId);
   };
 
   const handleJoin = ({ name, secretCode }) => {
     if (name && secretCode) {
-      const members = [
-        ...state.members,
-        {
-          id: state.members.length,
-          name: name,
-          secretCode: secretCode,
-          hasPicked: false,
-          isTaken: false,
-          picked: "",
-        },
-      ];
-      setState({ members });
+      join(state.roomId, {
+        id: state.members.length,
+        name: name,
+        secretCode: secretCode,
+      });
     }
   };
 
@@ -58,24 +56,29 @@ function App() {
         member.hasPicked = true;
         pickedMember.isTaken = true;
         member.picked = pickedMember.name;
-
-        setState({ members });
-        console.log(member, pickedMember);
-        console.log("picked");
+        update(state.roomId, member, pickedMember);
       }
       return member.picked;
     }
     return "";
   };
 
+  const handleRoomChange = (data) => {
+    console.log("roomChange", data);
+    setState({ ...state, roomId: data });
+    console.log(state);
+  };
+
   return (
     <>
-      <NavBar totalCounters={state.members.length} />
+      <NavBar
+        onRoomChange={handleRoomChange}
+        totalCounters={state.members.length}
+      />
       <main role="main" className="flex-shrink-0">
         <div className="container">
           <Counters
             members={state.members}
-            onReset={handleReset}
             onDelete={handleDelete}
             onJoin={handleJoin}
             onPick={handlePick}

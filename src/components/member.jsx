@@ -12,7 +12,7 @@ const Member = ({ member, onDelete }) => {
         className="btn btn-danger btn-sm m-2"
         onClick={() => onDelete(member.id)}
       >
-        Delete
+        Remove
       </button>
     </div>
   );
