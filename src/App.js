@@ -48,7 +48,6 @@ function App() {
     if (member) {
       console.log("im in here");
       if (!member.hasPicked) {
-        const index = members.indexOf(member);
         const availableMembers = members.filter(
           (m) => !m.isTaken && m !== member
         );

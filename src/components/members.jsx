@@ -31,7 +31,7 @@ const Members = ({ members, onDelete, onJoin, onPick }) => {
 
   return (
     <div>
-      <form id="form" action="javascript:void(0);" className="form-inline">
+      <form id="form" action="#" className="form-inline">
         <div className="form-group m-2">
           <input
             className="form-control"
