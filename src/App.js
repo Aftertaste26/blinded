@@ -43,14 +43,27 @@ function App() {
     const member = members.filter(
       (m) => m.name === name && m.secretCode === secretCode
     )[0];
+
     if (member) {
       if (!member.hasPicked) {
         const availableMembers = members.filter(
           (m) => !m.isTaken && m !== member
         );
+
+        const notPicked = state.members.filter(
+          (m) => !m.hasPicked && !m.isTaken && m !== member
+        );
+
         const randomIndex =
           Math.floor(Math.random() * 100) % availableMembers.length;
-        const pickedMember = availableMembers[randomIndex];
+
+        const randomMember = availableMembers[randomIndex];
+
+        const pickedMember =
+          notPicked.length === 1 ? notPicked[0] : randomMember;
+
+        console.log("not picked", notPicked);
+        console.log("random member", randomMember);
 
         member.hasPicked = true;
         pickedMember.isTaken = true;
