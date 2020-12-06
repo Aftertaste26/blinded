@@ -28,23 +28,22 @@ function App() {
   };
 
   const handleJoin = ({ name, secretCode }) => {
-    if (name && secretCode) {
-      join(state.roomId, {
-        id: state.members.length,
-        name: name,
-        secretCode: secretCode,
-      });
-    }
+    if (!state.members.some((member) => member.name === name))
+      if (name && secretCode) {
+        join(state.roomId, {
+          id: state.members.length,
+          name: name,
+          secretCode: secretCode,
+        });
+      }
   };
 
   const handlePick = ({ name, secretCode }) => {
-    const members = [...state.members];
+    const members = state.members;
     const member = members.filter(
       (m) => m.name === name && m.secretCode === secretCode
     )[0];
-    console.log("member", member);
     if (member) {
-      console.log("im in here");
       if (!member.hasPicked) {
         const availableMembers = members.filter(
           (m) => !m.isTaken && m !== member
@@ -64,9 +63,7 @@ function App() {
   };
 
   const handleRoomChange = (data) => {
-    console.log("roomChange", data);
     setState({ ...state, roomId: data });
-    console.log(state);
   };
 
   return (
