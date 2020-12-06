@@ -62,8 +62,8 @@ function App() {
         const pickedMember =
           notPicked.length === 1 ? notPicked[0] : randomMember;
 
-        console.log("not picked", notPicked);
-        console.log("random member", randomMember);
+ /*        console.log("not picked", notPicked);
+        console.log("random member", randomMember); */
 
         member.hasPicked = true;
         pickedMember.isTaken = true;
