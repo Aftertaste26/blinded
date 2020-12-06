@@ -29,6 +29,16 @@ const Members = ({ members, onDelete, onJoin, onPick }) => {
     return onJoin({ name: state.name, secretCode: state.secretCode });
   };
 
+  const handleMembers = () => {
+    const output = Array.isArray(members)
+      ? members
+      : [members[Object.keys(members)]];
+    console.log();
+    console.log(output, members);
+    return output.map((member) => (
+      <Member key={member.id} onDelete={onDelete} member={member} />
+    ));
+  };
   return (
     <div>
       <form id="form" action="#" className="form-inline">
@@ -76,11 +86,7 @@ const Members = ({ members, onDelete, onJoin, onPick }) => {
       <div id="result" className="m-4">
         <h1>{state.picked}</h1>
       </div>
-      <div className="container m-2">
-        {members.map((member) => (
-          <Member key={member.id} onDelete={onDelete} member={member} />
-        ))}
-      </div>
+      <div className="container m-2">{handleMembers()}</div>
     </div>
   );
 };
