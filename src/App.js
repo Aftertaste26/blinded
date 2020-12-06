@@ -56,8 +56,8 @@ function App() {
         pickedMember.isTaken = true;
         member.picked = pickedMember.name;
         update(state.roomId, member, pickedMember);
+        return member.picked;
       }
-      return member.picked;
     }
     return "";
   };
