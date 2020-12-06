@@ -9,6 +9,7 @@ const NavBar = ({ totalCounters, onRoomChange }) => {
         <form action="#">
           <input
             type="text"
+            placeholder='Room Code'
             onChange={(data) => onRoomChange(data.target.value)}
             className="form-control bg-warning text-center font-weight-bold"
             aria-label="Sizing example input"
